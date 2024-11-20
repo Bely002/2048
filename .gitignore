@@ -1,0 +1,8 @@
+# Ignorer le fichier système macOS
+.DS_Store
+
+# Ignorer les paramètres de l'éditeur VS Code
+.vscode/
+
+# Ignorer le répertoire Old
+Old/
