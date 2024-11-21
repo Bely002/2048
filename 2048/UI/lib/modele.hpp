@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <ncurses.h>
 using namespace std;
 
 /** Infrastructure minimale de test **/
@@ -167,33 +166,6 @@ int tailleDuNombreLePlusLong(Plateau plateau) {
         }
     }
     return max;
-}
-
-/** affiche un plateau
- * @param p le plateau
- * @return le string correspondant à l'affichage du tableau
- **/
-string dessine(Plateau p){
-    int maxTaille = tailleDuNombreLePlusLong(p);
-    string dessin  = "";
-    for(int i=0;i<9;i++){
-        if(i%2==0){
-            for(int j=0; j<13+maxTaille*4;j++){
-                dessin+= "*";
-            }
-            dessin+="\n";
-        }else{
-            for(int j=0;j<4;j++){
-                dessin+= "* ";
-                for(int k=0;k<maxTaille - to_string(p[(i-1)/2][j]).size();k++){
-                    dessin+=" ";
-                }
-                dessin+=to_string(p[(i-1)/2][j])+" ";
-            }
-            dessin+="*\n";
-        }
-    }
-    return dessin;
 }
 
 /** permet de savoir si une partie est terminée
