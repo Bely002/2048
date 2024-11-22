@@ -1,4 +1,4 @@
-#include "./lib/modele.hpp"
+#include "./header/modele.hpp"
 
 void drawFilledCircle(SDL_Renderer* renderer, int x, int y, int radius) {
     for (int w = 0; w < radius * 2; w++) {
