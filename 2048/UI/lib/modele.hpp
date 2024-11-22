@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 using namespace std;
 
 /** Infrastructure minimale de test **/
@@ -135,16 +137,16 @@ Jeu fusionnerEtAlignerLesLignes(Jeu jeu,bool droite) {
  *  @param direction la direction
  *  @return le jeu avec le plateau déplacé dans la direction indiqué et le score mis à jour
  **/
-Jeu deplacement(Jeu jeu, int direction) {
+Jeu deplacement(Jeu jeu, SDL_Keycode direction) {
     Plateau& plateau = jeu.plateau;
 
-    if(direction==KEY_UP || direction==KEY_DOWN){
+    if(direction==SDLK_UP || direction==SDLK_DOWN){
         plateau = echangerLignesEtColonnes(plateau);
     }
 
-    jeu = fusionnerEtAlignerLesLignes(jeu,direction==KEY_DOWN || direction==KEY_RIGHT);
+    jeu = fusionnerEtAlignerLesLignes(jeu,direction==SDLK_DOWN || direction==SDLK_RIGHT);
 
-    if(direction==KEY_UP || direction==KEY_DOWN){
+    if(direction==SDLK_UP || direction==SDLK_DOWN){
         plateau = echangerLignesEtColonnes(plateau);
     }
 
