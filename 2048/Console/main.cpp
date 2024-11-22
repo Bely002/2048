@@ -1,4 +1,9 @@
-#include "./lib/modele.hpp"
+#include <iostream>
+#include <vector>
+#include <ncurses.h>
+#include "./header/jeu.hpp"
+
+#define CHECK(test) if (!(test)) cerr << "Test failed in file " << __FILE__ << " line " << __LINE__ << ": " #test << endl
 
 int main() {
     srand(time(0));
