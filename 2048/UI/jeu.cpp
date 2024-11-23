@@ -1,37 +1,20 @@
-#include <iostream>
+#include "./header/jeu.hpp"
 #include <vector>
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+
 using namespace std;
-
-/** Infrastructure minimale de test **/
-#define CHECK(test) if (!(test)) cerr << "Test failed in file " << __FILE__ << " line " << __LINE__ << ": " #test << endl
-
 using Plateau = vector<vector<int>>;
 
-struct Jeu{
-    Plateau plateau;
-    int score;
-};
-
-/** génère aléatoirement un 2 ou un 4 avec des probabilités respectives de 9/10 et 1/10
- *  @return 2 ou 4
- **/
 int tireDeuxOuQuatre() {
     return rand()%10==0 ? 4 : 2;
 }
 
-/** génère un plateau de dimensions 4*4 ne contenant que des 0
- *  @return un plateau vide
- **/
 Plateau plateauVide() {
     return vector<vector<int>>(4,vector<int>(4,0));
 }
 
-/** génère deux nombres sur des cases aléatoires d'un plateau vide
- *  @return un plateau en début de jeu
- **/
 Plateau plateauInitial(){
     Plateau plateau = plateauVide();
     int placeAleatoire;
@@ -44,11 +27,6 @@ Plateau plateauInitial(){
     return plateau;
 }
 
-/**
- * Ajoute un quatre ou un deux à la place d'un zero
- * @param plateau le plateau
- * @return le plateau avec un quatre ou un deux à la place d'un ancien zero
-**/
 Plateau ajouterDeuxOuQuatre(Plateau plateau) {
     vector<pair<int,int>> tuilesVides = {};
     for(int i=0;i<4;i++){
@@ -65,12 +43,6 @@ Plateau ajouterDeuxOuQuatre(Plateau plateau) {
     return plateau;
 }
 
-/**
- * Echange les lignes et les colonnes du plateau
- * @param plateau le plateau
- * @return le plateau avec les lignes et les colonnes echangees 
- **/
-
 Plateau echangerLignesEtColonnes(Plateau plateau) {
     Plateau resultat(4,vector<int>(4));
     for(int i =0; i<4;i++){
@@ -81,12 +53,6 @@ Plateau echangerLignesEtColonnes(Plateau plateau) {
     return resultat;
 }
 
-/** 
- * retourne une ligne du tableau
- * @param ligne un tableau a 4 entiers
- * @return la ligne retournee
-**/
-
 vector<int> retournerLigne(vector<int> ligne) {
     vector<int> resultat(4);
     for(int i=0;i<4;i++){
@@ -94,13 +60,6 @@ vector<int> retournerLigne(vector<int> ligne) {
     }
     return resultat;
 }
-
-/** 
- * Fusionne et aligne (vers la droite ou la gauche) les éléments des lignes du plateau
- * @param jeu le jeu avec le plateau et le score
- * @param droite qui specifie s'il faut aligner a droite
- * @return le jeu avec le plateau et le score actualises
-**/
 
 Jeu fusionnerEtAlignerLesLignes(Jeu jeu,bool droite) {
     Plateau& plateau = jeu.plateau;
@@ -131,12 +90,6 @@ Jeu fusionnerEtAlignerLesLignes(Jeu jeu,bool droite) {
     return jeu;
 }
 
-
-/** déplace les tuiles d'un plateau dans la direction donnée et génère une nouvelle tuile si le déplacement est valide
- *  @param Jeu le jeu avec le plateau
- *  @param direction la direction
- *  @return le jeu avec le plateau déplacé dans la direction indiqué et le score mis à jour
- **/
 Jeu deplacement(Jeu jeu, SDL_Keycode direction) {
     Plateau& plateau = jeu.plateau;
 
@@ -153,11 +106,6 @@ Jeu deplacement(Jeu jeu, SDL_Keycode direction) {
     return jeu;
 }
 
-/** 
- * cherche la taille du nombre le plus long dans le plateau
- * @param plateau le plateau
- * @return la taille du nombre le plus long
-**/
 int tailleDuNombreLePlusLong(Plateau plateau) {
     int max=0;
     for(int i=0;i<4;i++){
@@ -170,10 +118,6 @@ int tailleDuNombreLePlusLong(Plateau plateau) {
     return max;
 }
 
-/** permet de savoir si une partie est terminée
- *  @param plateau un plateau
- *  @return true si le plateau est vide, false sinon
- **/
 bool estTermine(Plateau plateau){
     for(int i = 0; i < plateau.size(); i++) { // on parcourt les lignes
         for (int j = 0; j < plateau.size(); j++) {// on parcourt les collonnes
@@ -190,12 +134,6 @@ bool estTermine(Plateau plateau){
     return !(plateau[3][3]==plateau[2][3] or plateau[3][3]==plateau[3][2]);
     
 }
- 
-
-/** permet de savoir si une partie est gagnée
- * @param plateau un plateau
- * @return true si le plateau contient un 2048, false sinon
- **/
 
 bool estGagnant(Plateau plateau){
     for(int i = 0; i < plateau.size(); i++) {// on parcourt les lignes
