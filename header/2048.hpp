@@ -1,14 +1,16 @@
 #include <vector>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 using Plateau = vector<vector<int>>;
 
-struct Jeu{
-    Plateau plateau;
-    int score;
-};
+class Jeu {
+    public:
+        Plateau plateau;
+        int score;
+
+        void initialiser();
+        void ajouterDeuxOuQuatre();
+}
 
 /** génère aléatoirement un 2 ou un 4 avec des probabilités respectives de 9/10 et 1/10
  *  @return 2 ou 4
@@ -20,18 +22,13 @@ int tireDeuxOuQuatre();
  **/
 Plateau plateauVide();
 
-
-/** génère deux nombres sur des cases aléatoires d'un plateau vide
- *  @return un plateau en début de jeu
- **/
-Plateau plateauInitial();
-
 /**
  * Ajoute un quatre ou un deux à la place d'un zero
  * @param plateau le plateau
  * @return le plateau avec un quatre ou un deux à la place d'un ancien zero
-**/
+ **/
 Plateau ajouterDeuxOuQuatre(Plateau plateau);
+
 /**
  * Echange les lignes et les colonnes du plateau
  * @param plateau le plateau
@@ -44,7 +41,7 @@ Plateau echangerLignesEtColonnes(Plateau plateau);
  * retourne une ligne du tableau
  * @param ligne un tableau a 4 entiers
  * @return la ligne retournee
-**/
+ **/
 
 vector<int> retournerLigne(vector<int> ligne);
 
@@ -53,23 +50,30 @@ vector<int> retournerLigne(vector<int> ligne);
  * @param jeu le jeu avec le plateau et le score
  * @param droite qui specifie s'il faut aligner a droite
  * @return le jeu avec le plateau et le score actualises
-**/
+ **/
 
 Jeu fusionnerEtAlignerLesLignes(Jeu jeu,bool droite);
+
 
 /** déplace les tuiles d'un plateau dans la direction donnée et génère une nouvelle tuile si le déplacement est valide
  *  @param Jeu le jeu avec le plateau
  *  @param direction la direction
  *  @return le jeu avec le plateau déplacé dans la direction indiqué et le score mis à jour
  **/
-Jeu deplacement(Jeu jeu, SDL_Keycode direction);
+Jeu deplacement(Jeu jeu, int direction);
 
 /** 
  * cherche la taille du nombre le plus long dans le plateau
  * @param plateau le plateau
  * @return la taille du nombre le plus long
-**/
+ **/
 int tailleDuNombreLePlusLong(Plateau plateau);
+
+/** affiche un plateau
+ * @param p le plateau
+ * @return le string correspondant à l'affichage du tableau
+ **/
+string dessine(Plateau p);
 
 /** permet de savoir si une partie est terminée
  *  @param plateau un plateau

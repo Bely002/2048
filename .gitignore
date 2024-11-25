@@ -3,6 +3,3 @@
 
 # Ignorer les paramètres de l'éditeur VS Code
 .vscode/
-
-# Ignorer le répertoire Old
-Old/

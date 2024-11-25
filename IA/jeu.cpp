@@ -1,8 +1,6 @@
 #include "./header/jeu.hpp"
 #include <vector>
 #include <string>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 using Plateau = vector<vector<int>>;
@@ -90,16 +88,16 @@ Jeu fusionnerEtAlignerLesLignes(Jeu jeu,bool droite) {
     return jeu;
 }
 
-Jeu deplacement(Jeu jeu, SDL_Keycode direction) {
+Jeu deplacement(Jeu jeu, string direction) {
     Plateau& plateau = jeu.plateau;
 
-    if(direction==SDLK_UP || direction==SDLK_DOWN){
+    if(direction=="H" || direction=="B"){
         plateau = echangerLignesEtColonnes(plateau);
     }
 
-    jeu = fusionnerEtAlignerLesLignes(jeu,direction==SDLK_DOWN || direction==SDLK_RIGHT);
+    jeu = fusionnerEtAlignerLesLignes(jeu,direction=="B" || direction=="D");
 
-    if(direction==SDLK_UP || direction==SDLK_DOWN){
+    if(direction=="H" || direction=="B"){
         plateau = echangerLignesEtColonnes(plateau);
     }
 
@@ -116,6 +114,29 @@ int tailleDuNombreLePlusLong(Plateau plateau) {
         }
     }
     return max;
+}
+
+string dessine(Plateau p){
+    int maxTaille = tailleDuNombreLePlusLong(p);
+    string dessin  = "";
+    for(int i=0;i<9;i++){
+        if(i%2==0){
+            for(int j=0; j<13+maxTaille*4;j++){
+                dessin+= "*";
+            }
+            dessin+="\n";
+        }else{
+            for(int j=0;j<4;j++){
+                dessin+= "* ";
+                for(int k=0;k<maxTaille - to_string(p[(i-1)/2][j]).size();k++){
+                    dessin+=" ";
+                }
+                dessin+=to_string(p[(i-1)/2][j])+" ";
+            }
+            dessin+="*\n";
+        }
+    }
+    return dessin;
 }
 
 bool estTermine(Plateau plateau){
