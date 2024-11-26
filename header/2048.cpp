@@ -72,20 +72,15 @@ bool Jeu::deplacement(string direction) {
     return plateauPrecedent!=plateau;
 }
 
-bool Jeu::estTermine(){
-    for(int i = 0; i < plateau.size(); i++) { // on parcourt les lignes
-        for (int j = 0; j < plateau.size(); j++) {// on parcourt les collonnes
-            if (plateau[i][j]==0) return false;
-            if (j<= 2){
-                if(plateau[i][j] == plateau[i][j+1]) return false;  // si la case a la doite de [i][j] a la meme valeur on peut continuer a jouer
-            }
-            if (i<=2) {
-                if (plateau[i][j] == plateau[i+1][j] )return false ; // si la case en dessous de [i][j] a la meme valeur on peut continuer de jouer
-                    
-            }
+bool Jeu::estTermine() {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (plateau[i][j] == 0) return false;
+            if (j < 3 && plateau[i][j] == plateau[i][j + 1]) return false; // Droite
+            if (i < 3 && plateau[i][j] == plateau[i + 1][j]) return false; // Bas
         }
     }
-    return !(plateau[3][3]==plateau[2][3] or plateau[3][3]==plateau[3][2]); 
+    return true;
 }
 
 string Jeu::obtenirDessin(){

@@ -48,6 +48,11 @@ class Jeu {
         string obtenirDessin();
 
         Jeu();
+        
+        Jeu(const Jeu& autre) {
+            this->plateau = autre.plateau;  // Copie du plateau
+            this->score = autre.score;      // Copie du score
+        }
 };
 
 /** génère aléatoirement un 2 ou un 4 avec des probabilités respectives de 9/10 et 1/10

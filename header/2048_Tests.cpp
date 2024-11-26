@@ -131,6 +131,14 @@ void estTermineTest() {
         {4,16,8,16}
     };
     CHECK(!jeu.estTermine());
+
+    jeu.plateau={
+        {4,2,4,2},
+        {2,4,2,4},
+        {4,8,4,8},
+        {4,16,8,0}
+    };
+    CHECK(!jeu.estTermine());
 }
 
 int main() {
