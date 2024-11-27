@@ -42,15 +42,38 @@ void dessinePlateau(SDL_Renderer* renderer){
     }
 }
 
+vector<int> obtenirCouleur(int val){
+    switch (val){
+        case 2:
+            return {255,190,50};
+        case 4:
+            return {255,150,150};
+        case 8:
+            return {9,116,9};
+        case 16:
+            return {1,224,255};
+        case 32:
+            return {200,200,200};
+        case 64:
+            return {0,0,0};
+        case 2048:
+            return {116,9,84};
+
+        default:
+            return {200,200,200};
+    }
+}
+
 void creerTuile(SDL_Renderer* renderer, int x, int y, int val, TTF_Font* font) {
     SDL_Rect rect = {x, y, 80, 80};
-    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255); // Couleur de la tuile
+    vector<int> couleur =obtenirCouleur(val);
+    SDL_SetRenderDrawColor(renderer, couleur[0],couleur[1],couleur[2], 255); // Couleur de la tuile
     SDL_RenderFillRoundedRect(renderer, &rect);
 
     char buffer[10];
     snprintf(buffer, sizeof(buffer), "%d", val);
 
-    SDL_Color textColor = {0, 0, 0, 255}; 
+    SDL_Color textColor = {255, 255, 255, 255}; 
     SDL_Surface* textSurface = TTF_RenderText_Blended(font, buffer, textColor);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -109,7 +132,7 @@ int main(){
     Jeu jeu;
 
 
-    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255); 
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); 
     SDL_RenderClear(renderer); 
     SDL_SetRenderDrawColor(renderer, 210, 190, 190, 255);
     dessinePlateau(renderer);

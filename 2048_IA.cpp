@@ -7,6 +7,18 @@ using namespace std;
 using Plateau = vector<vector<int>>;
 vector<string> listeCoups = {"h","b","g","d"};
 
+vector<pair<int,int>> obtenirTuilesVides(Plateau plateau){
+    vector<pair<int,int>> tuilesVides={};
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(plateau[i][j]==0){
+                tuilesVides.push_back({i,j});
+            }
+        }
+    }
+    return tuilesVides;
+}
+
 string coupAleatoire() {
     return listeCoups[rand()%4];
 }
@@ -15,7 +27,6 @@ int finirJeu(Jeu jeu,int maxCoups) {
     string dir;
     int nbCoups=0;
     while(!jeu.estTermine() and nbCoups<maxCoups){
-        cout << jeu.obtenirDessin() << endl;
         dir=coupAleatoire();
         while(!jeu.deplacement(dir)){
             dir=coupAleatoire();
@@ -26,16 +37,47 @@ int finirJeu(Jeu jeu,int maxCoups) {
     return jeu.score;
 }
 
-string choisirCoup(Jeu jeu){
-    //....
-    return "";
+int moyenneScores(Jeu jeu,int iterations,int maxCoups) {
+    int moyenne=0;
+    for(int i=0;i<iterations;i++){
+        moyenne+=finirJeu(jeu,maxCoups);
+    }
+    moyenne=moyenne/iterations;
+    return moyenne;
+}
+
+string choisirCoup(Jeu jeu,int iterations,int maxCoups){
+    string meilleurCoup;
+    int meilleurMoyenne=0;
+    for(auto coup:listeCoups){
+        Jeu copie=jeu;
+        if(copie.deplacement(coup)){
+            int moyenne=moyenneScores(copie,iterations,maxCoups);
+            if(moyenne>meilleurMoyenne){
+                meilleurMoyenne=moyenne;
+                meilleurCoup=coup;
+            }
+        }
+    }
+    return meilleurCoup;
 }
 
 int main() {
     srand(time(0));
     Jeu jeu;
+    int iterations=100;
+    int maxCoups=10;
 
-    cout << finirJeu(jeu,10) << endl;
+    while (!jeu.estTermine()){
+        cout << jeu.score << endl;
+        cout << jeu.obtenirDessin() << endl;
+        jeu.deplacement(choisirCoup(jeu,iterations,maxCoups));
+        jeu.ajouterDeuxOuQuatre();
+    }
+
+    cout << jeu.score << endl;
+    cout << jeu.obtenirDessin() << endl;
+    
 
 
     return 0;
