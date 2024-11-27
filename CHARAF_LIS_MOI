@@ -1,0 +1,18 @@
+Dans le répertoire principal tu as les fichiers principaux (2048_Console.cpp, 2048_Ncurses.cpp et 2048_UI.cpp)
+Tu ne peux pas compiler ces programmes seuls tout simplement car ils ont besoin du hpp qui contient le code du 2048.
+
+Par exemple pour compiler 2048_Console.cpp tu dois taper dans la console :
+
+clang++ --std=c++20 2048_Console.cpp ./header/2048.cpp -o 2048_Console
+
+Pour compiler avec Ncurses tu dois ajouter la bibliothèque quand tu compiles : 
+
+clang++ --std=c++20 2048_Ncurses.cpp ./header/2048.cpp -o 2048_Ncurses -lncurses
+
+Pour compiler avec SDL tu dois ajouter la bibliothèque quand tu compiles :
+
+clang++ --std=c++20 2048_UI.cpp ./header/2048.cpp -o 2048_UI -lSDL2 -lSDL2_ttf
+
+lSDL2 correspond à la bibliothèque SDL2
+lSDL2_ttf correspond à la bibliothèque d'SDL2 qui permet de créer du texte
+
