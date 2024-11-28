@@ -7,17 +7,6 @@ using namespace std;
 using Plateau = vector<vector<int>>;
 vector<string> listeCoups = {"h","b","g","d"};
 
-vector<pair<int,int>> obtenirTuilesVides(Plateau plateau){
-    vector<pair<int,int>> tuilesVides={};
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            if(plateau[i][j]==0){
-                tuilesVides.push_back({i,j});
-            }
-        }
-    }
-    return tuilesVides;
-}
 
 string coupAleatoire() {
     return listeCoups[rand()%4];

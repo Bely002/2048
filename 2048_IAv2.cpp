@@ -1,10 +1,110 @@
 #include "./header/2048.hpp"
-#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <vector>
+#include <string>
 
 using namespace std;
 using Plateau = vector<vector<int>>;
+vector<string> listeCoups = {"h","b","g","d"};
+vector<Plateau> meilleursPlateaux ={
+    {
+    {2,4,8,16},
+    {256,128,64,32},
+    {512,1024,2048,4096},
+    {65536,32768,16384,8192}
+    },{
+        {65536, 32768, 16384, 8192},
+    {512, 1024, 2048, 4096},
+    {256, 128, 64, 32},
+    {2, 4, 8, 16}
+    },{
+        {8192, 16384, 32768, 65536},
+    {4096, 2048, 1024, 512},
+    {32, 64, 128, 256},
+    {16, 8, 4, 2}
+    },{
+        {16, 8, 4, 2},
+    {32, 64, 128, 256},
+    {4096, 2048, 1024, 512},
+    {8192, 16384, 32768, 65536}
+    }
+};
+
+vector<pair<int,int>> obtenirTuilesVides(Plateau plateau) {
+    vector<pair<int,int>> tuilesVides;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(plateau[i][j]==0){
+                tuilesVides.push_back({i,j});
+            }
+        }
+    }
+    return tuilesVides;
+}
+
+string coupAleatoire() {
+    return listeCoups[rand()%4];
+}
+
+int scorePlateau(Plateau plateau,double proba){
+    int score=0;
+    int meilleurScore=0;
+    for(int k=0;k<4;k++){
+        score=0;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                score+=plateau[i][j]*meilleursPlateaux[k][i][j];
+            }
+        }
+        meilleurScore=score>meilleurScore ? score : meilleurScore;
+    }
+    return meilleurScore*proba;
+
+}
+
+int scoreCoup(Jeu jeu,string coup,int profondeur){
+    int score=0;
+    if(jeu.deplacement(coup)){
+        vector<pair<int,int>> tuilesVides = obtenirTuilesVides(jeu.plateau);
+        Jeu copie;
+        for(int i=0; i<2; i++){
+            for(int j=0;j<tuilesVides.size();j++){
+                copie=jeu;
+                copie.plateau[tuilesVides[j].first][tuilesVides[j].second]=(i==0 ? 2 : 4);
+                if(profondeur==0){
+                    score+=scorePlateau(copie.plateau,(i==0 ? 0.9 : 0.1)/tuilesVides.size());
+                }else{
+                    int meilleurScore=0;
+                    for(auto coup2:listeCoups){
+                        int score2=scoreCoup(copie,coup2,profondeur-1)*(i==0 ? 0.9 : 0.1)/tuilesVides.size();
+                        meilleurScore=score2>meilleurScore ? score2 : meilleurScore;
+                    }
+                    score+=meilleurScore;
+                }
+            }
+        }
+    }
+    return score;
+}
+
+string choisirCoup(Jeu jeu){
+    string meilleurCoup;
+    int meilleurScore=0;
+    for(auto coup:listeCoups){
+        int score = scoreCoup(jeu,coup,1);
+        if(score>meilleurScore){
+            meilleurScore=score;
+            meilleurCoup=coup;
+        }
+    }
+    return meilleurCoup;
+}
+
+
+
+
+
 
 void drawFilledCircle(SDL_Renderer* renderer, int x, int y, int radius) {
     for (int w = 0; w < radius * 2; w++) {
@@ -44,13 +144,13 @@ void dessinePlateau(SDL_Renderer* renderer){
 
 void creerTuile(SDL_Renderer* renderer, int x, int y, int val, TTF_Font* font) {
     SDL_Rect rect = {x, y, 80, 80};
-    SDL_SetRenderDrawColor(renderer, 200,200,200, 255); // Couleur de la tuile
+    SDL_SetRenderDrawColor(renderer, 200,200,200, 255);
     SDL_RenderFillRoundedRect(renderer, &rect);
 
     char buffer[10];
     snprintf(buffer, sizeof(buffer), "%d", val);
 
-    SDL_Color textColor = {0, 0, 0, 255}; 
+    SDL_Color textColor = {255, 255, 255, 255}; 
     SDL_Surface* textSurface = TTF_RenderText_Blended(font, buffer, textColor);
 
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -115,7 +215,8 @@ void afficherScore(SDL_Renderer* renderer, TTF_Font* font,int score) {
     SDL_DestroyTexture(textTexture);
 }
 
-int main(){
+
+int main() {
     srand(time(0));
 
     SDL_Init(SDL_INIT_VIDEO);
@@ -143,12 +244,14 @@ int main(){
             if (event.type == SDL_QUIT) {
                 fin = true;
             }
-            if(event.type == SDL_KEYDOWN){
+            /* if(event.type == SDL_KEYDOWN){
                 if(jeu.deplacement(convertInput(event.key.keysym.sym))){
                     jeu.ajouterDeuxOuQuatre();
                 }
-            }
+            } */
         }
+        jeu.deplacement(choisirCoup(jeu));
+        jeu.ajouterDeuxOuQuatre();
         SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255); 
         SDL_RenderClear(renderer); 
         SDL_SetRenderDrawColor(renderer, 210, 190, 190, 255);
