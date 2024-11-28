@@ -10,7 +10,7 @@ class Jeu {
         int score;
 
         /**
-         * Ajoute un quatre ou un deux de manière aléatoire à la place d'un zero sur le plateau
+         * Ajoute un quatre (10%) ou un deux (90%) de manière aléatoire à la place d'un zero sur le plateau
          **/
 
         void ajouterDeuxOuQuatre();
@@ -23,7 +23,7 @@ class Jeu {
 
         /** 
          * Fusionne et aligne (vers la droite ou la gauche) les éléments des lignes du plateau en mettant à jour le score
-         * @param droite qui specifie s'il faut aligner a droite 
+         * @param droite un bool qui specifie s'il faut aligner a droite 
          **/
 
         void fusionnerEtAlignerLesLignes(bool droite);
@@ -48,7 +48,6 @@ class Jeu {
         string obtenirDessin();
 
         Jeu();
-        
         Jeu(const Jeu& autre) {
             this->plateau = autre.plateau;  // Copie du plateau
             this->score = autre.score;      // Copie du score

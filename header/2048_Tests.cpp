@@ -7,6 +7,47 @@
 using namespace std;
 using Plateau = vector<vector<int>>;
 
+void ajouterDeuxOuQuatreTest() {
+    Jeu jeu;
+    jeu.plateau={
+        {0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,0}
+    };
+    int nombreTuiles=0;
+    for(auto ligne:jeu.plateau){
+        for(auto tuile:ligne){
+            if(tuile==2 or tuile==4){
+                nombreTuiles++;
+            }
+        }
+    }
+    CHECK(nombreTuiles==0);
+
+    jeu.ajouterDeuxOuQuatre();
+    nombreTuiles=0;
+    for(auto ligne:jeu.plateau){
+        for(auto tuile:ligne){
+            if(tuile==2 or tuile==4){
+                nombreTuiles++;
+            }
+        }
+    }
+    CHECK(nombreTuiles==1);
+
+    jeu.ajouterDeuxOuQuatre();
+    nombreTuiles=0;
+    for(auto ligne:jeu.plateau){
+        for(auto tuile:ligne){
+            if(tuile==2 or tuile==4){
+                nombreTuiles++;
+            }
+        }
+    }
+    CHECK(nombreTuiles==2);
+}
+
 void echangerLignesEtColonnesTest() {
     Jeu jeu;
     jeu.plateau={
@@ -141,12 +182,50 @@ void estTermineTest() {
     CHECK(!jeu.estTermine());
 }
 
+void obtenirDessinTest() {
+    Jeu jeu;
+    jeu.plateau={
+        {0,2,0,0},
+        {0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,0}
+    };
+    CHECK(jeu.obtenirDessin() ==
+    "*****************\n"
+    "*   * 2 *   *   *\n"
+    "*****************\n"
+    "*   *   *   *   *\n"
+    "*****************\n"
+    "*   *   *   *   *\n"
+    "*****************\n"
+    "*   *   *   *   *\n"
+    "*****************\n");
+    jeu.plateau={
+            {0,2,0,0},
+            {0,128,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+        };
+    CHECK(jeu.obtenirDessin() ==
+    "*************************\n"
+    "*     *   2 *     *     *\n"
+    "*************************\n"
+    "*     * 128 *     *     *\n"
+    "*************************\n"
+    "*     *     *     *     *\n"
+    "*************************\n"
+    "*     *     *     *     *\n"
+    "*************************\n");
+}
+
 int main() {
 
+    ajouterDeuxOuQuatreTest();
     echangerLignesEtColonnesTest();
     fusionnerEtAlignerLesLignesTest();
     deplacementTest();
     estTermineTest();
+    obtenirDessinTest();
 
     return 0;
 }

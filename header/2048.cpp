@@ -98,7 +98,11 @@ string Jeu::obtenirDessin(){
                 for(int k=0;k<maxTaille - to_string(plateau[(i-1)/2][j]).size();k++){
                     dessin+=" ";
                 }
-                dessin+=to_string(plateau[(i-1)/2][j])+" ";
+                if(plateau[(i-1)/2][j]==0){
+                    dessin+="  ";
+                }else{
+                    dessin+=to_string(plateau[(i-1)/2][j])+" ";
+                }
             }
             dessin+="*\n";
         }
