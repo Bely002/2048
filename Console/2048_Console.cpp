@@ -22,5 +22,10 @@ int main(){
         jeu.ajouterDeuxOuQuatre();
     }
 
+    cout << "***GAME OVER***" << endl;
+    cout << "Score : " << jeu.score << endl;
+    cout << jeu.obtenirDessin() << endl;
+
+
     return 0;
 }
