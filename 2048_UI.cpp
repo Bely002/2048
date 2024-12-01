@@ -6,12 +6,14 @@
 using namespace std;
 using Plateau = vector<vector<int>>;
 
-void drawFilledCircle(SDL_Renderer* renderer, int x, int y, int radius) {
-    for (int w = 0; w < radius * 2; w++) {
-        for (int h = 0; h < radius * 2; h++) {
-            int dx = radius - w;
-            int dy = radius - h;
-            if ((dx * dx + dy * dy) <= (radius * radius)) {
+
+
+void dessineDisque(SDL_Renderer* renderer, int x, int y, int r) {
+    for (int w = 0; w < r * 2; w++) {
+        for (int h = 0; h < r * 2; h++) {
+            int dx = r - w;
+            int dy = r - h;
+            if ((dx * dx + dy * dy) <= (r * r)) {
                 SDL_RenderDrawPoint(renderer, x + dx, y + dy);
             }
         }
@@ -20,14 +22,17 @@ void drawFilledCircle(SDL_Renderer* renderer, int x, int y, int radius) {
 
 void SDL_RenderFillRoundedRect(SDL_Renderer* renderer, SDL_Rect* rect) {
     SDL_Rect recttmp;
+
     recttmp = {rect->x+5,rect->y, rect->w-10, rect->h};
     SDL_RenderFillRect(renderer, &recttmp);
     recttmp = {rect->x,rect->y+5, rect->w, rect->h-10};
     SDL_RenderFillRect(renderer, &recttmp);
-    drawFilledCircle(renderer,rect->x+5,rect->y+5,5);
-    drawFilledCircle(renderer,rect->x+74,rect->y+5,5);
-    drawFilledCircle(renderer,rect->x+5,rect->y+74,5);
-    drawFilledCircle(renderer,rect->x+74,rect->y+74,5);
+
+    /* Pour les coins arrondis */
+    dessineDisque(renderer,rect->x+5,rect->y+5,5);
+    dessineDisque(renderer,rect->x+74,rect->y+5,5);
+    dessineDisque(renderer,rect->x+5,rect->y+74,5);
+    dessineDisque(renderer,rect->x+74,rect->y+74,5);
 }
 
 void dessinePlateau(SDL_Renderer* renderer){
@@ -82,7 +87,7 @@ void afficherTuiles(SDL_Renderer* renderer, TTF_Font* font, Plateau plateau) {
     }
 }
 
-string convertInput(int input){
+string convertirInput(int input){
     switch (input){
         case SDLK_UP:
             return "h";
@@ -144,7 +149,7 @@ int main(){
                 fin = true;
             }
             if(event.type == SDL_KEYDOWN){
-                if(jeu.deplacement(convertInput(event.key.keysym.sym))){
+                if(jeu.deplacement(convertirInput(event.key.keysym.sym))){
                     jeu.ajouterDeuxOuQuatre();
                 }
             }

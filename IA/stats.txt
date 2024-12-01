@@ -1,0 +1,3 @@
+Nombre de parties jouees : 20
+Score moyen : 56591
+Meilleur score : 128052

@@ -4,9 +4,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <map>
+#include <fstream>
 
 using namespace std;
 using Plateau = vector<vector<int>>;
+
+map<string,int> stats = {{"Nombre de parties jouees ", 0}, {"Score moyen ", 0}, {"Meilleur score ",0}};
 
 vector<string> listeCoups = {"h","b","g","d"};
 
@@ -112,15 +116,39 @@ string choisirCoup(Jeu jeu){
 
 
 int main() {
-    srand(time(0));
-    Jeu jeu;
-
-    while(!jeu.estTermine()){
-        cout << "Score : " << jeu.score << endl;
-        cout << jeu.obtenirDessin() << endl;
-        jeu.deplacement(choisirCoup(jeu));
-        jeu.ajouterDeuxOuQuatre();
+    ifstream statsFichier ("stats.txt");
+    string key;
+    string val;
+    while(getline(statsFichier,key,':')){
+        getline(statsFichier,val);
+        stats[key]=stoi(val);
     }
-    
+    statsFichier.close();
+
+
+    srand(time(0));
+
+    for(int i=0;i<10;i++){
+        Jeu jeu;
+        while(!jeu.estTermine()){
+            cout << "Score : " << jeu.score << endl;
+            cout << jeu.obtenirDessin() << endl;
+            if(!jeu.deplacement(choisirCoup(jeu))){
+                break;
+            }
+            jeu.ajouterDeuxOuQuatre();
+        }
+        if(jeu.score>stats["Meilleur score "]) stats["Meilleur score "]=jeu.score;
+        stats["Nombre de parties jouees "]++;
+        stats["Score moyen "]=((stats["Nombre de parties jouees "]-1)*stats["Score moyen "]+jeu.score)/stats["Nombre de parties jouees "];
+    }
+
+    ofstream statsFichier2 ("stats.txt");
+    statsFichier2 << "Nombre de parties jouees : " << stats["Nombre de parties jouees "] << "\n";
+    statsFichier2 << "Score moyen : " << stats["Score moyen "] << "\n";
+    statsFichier2 << "Meilleur score : " << stats["Meilleur score "] << "\n";
+
+    statsFichier2.close();
+
     return 0;
 }
