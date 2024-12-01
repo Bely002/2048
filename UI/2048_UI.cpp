@@ -1,4 +1,4 @@
-#include "./header/2048.hpp"
+#include "../header/2048.hpp"
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>

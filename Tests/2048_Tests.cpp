@@ -1,4 +1,4 @@
-#include "./2048.hpp"
+#include "../header/2048.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -226,6 +226,8 @@ int main() {
     deplacementTest();
     estTermineTest();
     obtenirDessinTest();
+
+    cout << "Tests effectués" << endl;
 
     return 0;
 }

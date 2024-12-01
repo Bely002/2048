@@ -1,4 +1,4 @@
-#include "./header/2048.hpp"
+#include "../header/2048.hpp"
 #include <vector>
 #include <iostream>
 
