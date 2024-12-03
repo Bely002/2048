@@ -17,8 +17,8 @@ IA: ./IA/2048_IA.cpp ./header/2048.cpp
 
 help:
 	@echo "\nListe des commandes :"
-	@echo "	make Console	- Compile 2048 en version console"
-	@echo "	make Ncurses	- Compile 2048 en version console colorée avec ncurses"
-	@echo "	make UI		- Compile 2048 avec une interface graphique avec SDL2"
-	@echo "	make IA		- Compile l'IA de 2048"
-	@echo "	make Tests	- Compile les tests de la bibliothèque 2048\n"
+	@echo "	make Console	- Compile 2048 en version console (./2048)"
+	@echo "	make Ncurses	- Compile 2048 en version console colorée avec ncurses (./2048)"
+	@echo "	make UI		- Compile 2048 avec une interface graphique avec SDL2 (./2048)"
+	@echo "	make IA		- Compile l'IA de 2048 (./2048_IA)"
+	@echo "	make Tests	- Compile les tests de la bibliothèque 2048 (./2048_Tests)\n"
