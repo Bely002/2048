@@ -6,7 +6,7 @@
 using namespace std;
 using Plateau = vector<vector<int>>;
 
-string convertInput(int input){
+string convertirInput(int input){
     switch (input){
         case KEY_UP:
             return "h";
@@ -16,6 +16,8 @@ string convertInput(int input){
             return "d";
         case KEY_LEFT:
             return "g";
+        case 113:
+            return "quit";
     }
     return "";
 }
@@ -32,15 +34,22 @@ int main(){
     Jeu jeu;
     string dir;
 
-    while(!jeu.estTermine()){
+    while(dir!="quit" and !jeu.estTermine()){
         clear();
         printw("Score: %d\n", jeu.score);
         printw("%s", jeu.obtenirDessin().c_str());
-        while(!jeu.deplacement(dir)){
-            dir=convertInput(getch());
-        }
         dir="";
+        while(dir!="quit" and !jeu.deplacement(dir)){
+            dir=convertirInput(getch());
+        }
         jeu.ajouterDeuxOuQuatre();
+    }
+    while(dir!="quit" and convertirInput(getch())!="quit"){
+        clear();
+        printw("GAME OVER\n");
+        printw("Score: %d\n", jeu.score);
+        printw("%s", jeu.obtenirDessin().c_str());
+        printw("q : quit");
     }
 
     move(0,10);
