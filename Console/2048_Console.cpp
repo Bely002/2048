@@ -15,10 +15,13 @@ int main(){
         cout << jeu.obtenirDessin() << endl;
         cout << "Entrer commande : ";
         cin >> dir;
+        if (dir=='q') break;
         while(!jeu.deplacement(dir)){
             cout << "Entrer commande : ";
             cin >> dir;
+            if (dir=='q') break;
         }
+        if (dir=='q') break;
         jeu.ajouterDeuxOuQuatre();
     }
 

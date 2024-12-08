@@ -131,6 +131,8 @@ void afficherScore(SDL_Renderer* renderer, TTF_Font* font,int score) {
     SDL_DestroyTexture(textTexture);
 }
 
+
+
 void afficherJeu(SDL_Renderer* renderer, TTF_Font* font, Jeu jeu){
     /* Met la couleur de dessin à (50,50,50,255) gris */
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
