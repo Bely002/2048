@@ -1,6 +1,4 @@
 #include "../header/2048.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -31,6 +29,30 @@ vector<Plateau> meilleursPlateaux ={
     {32, 64, 128, 256},
     {4096, 2048, 1024, 512},
     {8192, 16384, 32768, 65536}
+    },
+    {
+    {65536, 512, 256, 2},
+    {32768, 1024 , 128, 4},
+    {16384, 2048, 64, 8},
+    {8192, 4096, 32, 16}
+    },
+
+    
+    {{8192, 4096, 32, 16},
+    {16384, 2048, 64, 8},
+    {32768, 1024, 128, 4},
+    {65536 , 512, 256, 2}
+    },
+
+    {{2 ,256, 512, 65536},
+    {4 ,128, 1024, 32768},
+    {8 ,64, 2048, 16384},
+    {16 ,32, 4096, 8192}},
+
+    {{16, 32, 4096, 8192},
+    {8, 64, 2048, 16384},
+    {4, 128, 1024, 32768},
+    {2, 256, 512, 65536}}
 };
 
 vector<pair<int,int>> obtenirTuilesVides(Plateau plateau) {
@@ -53,7 +75,7 @@ string coupAleatoire() {
 int scorePlateau(Plateau plateau){
     int score=0;
     int meilleurScore=0;
-    for(int k=0;k<len(meilleursPlateaux);k++){
+    for(int k=0;k<meilleursPlateaux.size();k++){
         score=0;
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
