@@ -109,9 +109,12 @@ string convertirInput(int input){
     return "";
 }
 
-void afficherScore(SDL_Renderer* renderer, TTF_Font* font,int score) {
+void afficherScore(SDL_Renderer* renderer, TTF_Font* font,int score,bool fin) {
     /* Convertir score en char */
     string scorestr = to_string(score);
+    if (fin){
+        scorestr="GAME OVER ! Score : " + scorestr;
+    }
     const char *scoreChar = scorestr.c_str();
 
     SDL_Color textColor = {255, 255, 255, 255}; 
@@ -143,7 +146,7 @@ void afficherJeu(SDL_Renderer* renderer, TTF_Font* font, Jeu jeu){
 
     dessinePlateau(renderer);
     afficherTuiles(renderer,font, jeu.plateau);
-    afficherScore(renderer,font,jeu.score);
+    afficherScore(renderer,font,jeu.score,jeu.estTermine());
 
     /* Raffraichie l'écran avec les mofifications appliquées au renderer */
     SDL_RenderPresent(renderer);

@@ -31,7 +31,6 @@ vector<Plateau> meilleursPlateaux ={
     {32, 64, 128, 256},
     {4096, 2048, 1024, 512},
     {8192, 16384, 32768, 65536}
-    }
 };
 
 vector<pair<int,int>> obtenirTuilesVides(Plateau plateau) {
@@ -54,7 +53,7 @@ string coupAleatoire() {
 int scorePlateau(Plateau plateau){
     int score=0;
     int meilleurScore=0;
-    for(int k=0;k<4;k++){
+    for(int k=0;k<len(meilleursPlateaux);k++){
         score=0;
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
