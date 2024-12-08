@@ -82,11 +82,9 @@ int scorePlateau(Plateau plateau){
                 score+=plateau[i][j]*meilleursPlateaux[k][i][j];
             }
         }
-        score=score;
         meilleurScore=score>meilleurScore ? score : meilleurScore;
     }
     return meilleurScore;
-
 }
 
 int scoreCoup(Jeu jeu,string coup,int profondeur){
