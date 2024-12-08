@@ -58,6 +58,7 @@ void creerTuile(SDL_Renderer* renderer, int x, int y, int val, TTF_Font* font) {
     SDL_RenderFilledRoundedRect(renderer, &rect);
 
     /* Convertir score en char */
+    /* La bibliothèque SDL2 ne permet pas de prendre des strings en paramètre */
     string valstr = to_string(val);
     const char *valchar = valstr.c_str();
 
