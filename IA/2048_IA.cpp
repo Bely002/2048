@@ -90,24 +90,23 @@ int scorePlateau(Plateau plateau){
 int scoreCoup(Jeu jeu,string coup,int profondeur){
     int score=0;
     if(jeu.deplacement(coup)){
-        vector<pair<int,int>> tuilesVides = obtenirTuilesVides(jeu.plateau);
-        Jeu copie;
-        if (tuilesVides.size()==0){
-            return scorePlateau(jeu.plateau);
-        }
-        for(int i=0; i<2; i++){
-            for(int j=0;j<tuilesVides.size();j++){
-                copie=jeu;
-                copie.plateau[tuilesVides[j].first][tuilesVides[j].second]=(i==0 ? 2 : 4);
-                if(profondeur==0){
-                    score+=scorePlateau(copie.plateau)*(i==0 ? 0.9 : 0.1)/tuilesVides.size();
-                }else{
-                    int meilleurScore=0;
-                    for(auto coup2:listeCoups){
-                        int score2=scoreCoup(copie,coup2,profondeur-1)*(i==0 ? 0.9 : 0.1)/tuilesVides.size();
-                        meilleurScore=score2>meilleurScore ? score2 : meilleurScore;
+        if(!jeu.estTermine()){
+            vector<pair<int,int>> tuilesVides = obtenirTuilesVides(jeu.plateau);
+            Jeu copie;
+            for(int i=0; i<2; i++){
+                for(int j=0;j<tuilesVides.size();j++){
+                    copie=jeu;
+                    copie.plateau[tuilesVides[j].first][tuilesVides[j].second]=(i==0 ? 2 : 4);
+                    if(profondeur==0){
+                        score+=scorePlateau(copie.plateau)*(i==0 ? 0.9 : 0.1)/tuilesVides.size();
+                    }else{
+                        int meilleurScore=0;
+                        for(auto coup2:listeCoups){
+                            int score2=scoreCoup(copie,coup2,profondeur-1)*(i==0 ? 0.9 : 0.1)/tuilesVides.size();
+                            meilleurScore=score2>meilleurScore ? score2 : meilleurScore;
+                        }
+                        score+=meilleurScore;
                     }
-                    score+=meilleurScore;
                 }
             }
         }
