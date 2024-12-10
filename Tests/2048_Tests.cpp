@@ -116,7 +116,6 @@ void deplacementTest() {
         {0,0,0,8},
         {0,0,0,16}
     };
-    jeu.deplacement("h");
     CHECK(!jeu.deplacement("h"));
     CHECK(!jeu.deplacement("b"));
     CHECK(!jeu.deplacement("d"));
@@ -178,6 +177,14 @@ void estTermineTest() {
         {2,4,2,4},
         {4,8,4,8},
         {4,16,8,0}
+    };
+    CHECK(!jeu.estTermine());
+
+    jeu.plateau={
+        {2,4,0,2},
+        {8,32,16,8},
+        {32,64,128,32},
+        {4096,2048,512,128}
     };
     CHECK(!jeu.estTermine());
 }
